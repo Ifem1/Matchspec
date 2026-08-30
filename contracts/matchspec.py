@@ -88,8 +88,11 @@ class MatchSpecRegistry(gl.Contract):
         a=json.loads(self.items[p["item_a"]-1]); b=json.loads(self.items[p["item_b"]-1]); profile=list(p["profile"]); source_urls=list(p["source_urls"])
         def leader(): return _fetch_evidence(a,b,profile,source_urls)
         def validate(leader_result):
+            if not isinstance(leader_result, gl.vm.Return): return False
+            leader_data=leader_result.calldata
+            candidate=_fetch_evidence(a,b,profile,source_urls)
             fields=["status","physical_fit","power","data","display","protocol","adapter_required","adapter","condition_code","evidence_state"]
-            return isinstance(leader_result, dict) and all(k in leader_result for k in fields)
+            return isinstance(leader_data, dict) and isinstance(candidate, dict) and all(leader_data.get(k)==candidate.get(k) for k in fields)
         result=gl.vm.run_nondet_unsafe(leader,validate)
         required = ["status","physical_fit","power","data","display","protocol","adapter_required","adapter","condition_code","evidence_state","limitation"]
         if not isinstance(result, dict) or any(k not in result for k in required): raise gl.vm.UserError("invalid consensus result")
