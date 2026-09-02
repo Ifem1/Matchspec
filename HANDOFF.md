@@ -5,23 +5,22 @@
 | Field | Value |
 |---|---|
 | Repository | https://github.com/Ifem1/Matchspec |
-| Commit | `a419c3ad6dcd8e4de6eec1be3202e1c53c4c684e` |
+| Commit | `2d0b0a8ba9a18b5742c88a1995151be2eb407fd3` |
 | Network | Studionet |
 | Chain ID | 61999 |
-| Contract | `0x3A9DB86D7E451bc0382D710629FeC91A6F3E5EDF` |
-| Explorer | https://explorer-studio.genlayer.com/address/0x3A9DB86D7E451bc0382D710629FeC91A6F3E5EDF |
-| Contract SHA-256 | `E4FF569A0051FFD443BB1DF83CD5D6DFDDD5D78F944B2F584ED0AC375A07ACD6` |
+| Contract | `0xa0da92e2779F00dc25b03Ed2E25E04746bE47858` |
+| Explorer | https://explorer-studio.genlayer.com/address/0xa0da92e2779F00dc25b03Ed2E25E04746bE47858 |
+| Contract SHA-256 | `3754E9BA208E331A9BA68D14AEA4E2C248580DF04E0F41323A98F5C0F608EA49` |
 | Frontend URL | https://matchspec.vercel.app/ (requires final address update) |
 
 ## Deployment and lifecycle evidence
 
 | Operation | Transaction / result |
 |---|---|
-| Deploy | `0x1f2159ecc1f7b70f8c6ebccfcaa48c87a212ad1b60fa1a273163a4c5aef7039a` |
-| Item A | `0x8009dce1ff8befe064ee55b0c1a032e883036c790c0cdb39a20f54af64de8ced` |
-| Item B | `0x41c0e0e668cf660a53aed96bd766808706d7660659b4e423ae5a0b4d19a58a5f` |
-| Pair | Accepted; exact hash not captured in the terminal output |
-| Assessment | `0x30ba4a917274a32d27c95280b00bcb1571f4e57b4c951fb3b2acb947994ac0f1` — failed to commit; canonical `assessment_count` remained `0` |
+| Deploy | `0x3e85f702c7b231e09ee08e7d7e60529170947dc1a1741efa6e9eba2ad491578b` |
+| Item A | `0xa8ce6ac44f42db919161dcba33d65b4f7413d14b629613f48d3349f5a7abcd10` |
+| Item B / Pair | Accepted; exact hashes were truncated by the CLI output; pair-count readback returned `1` |
+| Assessment | `0x824ea7ab16a378ed2c23e2e4513adf954e1820212bc9eb758fb10429433245f6` — failed to commit; canonical `assessment_count` remained `0` |
 
 The pair transaction was accepted and pair-count readback returned `1`; its complete hash was not captured in the terminal output and is intentionally not fabricated here.
 
