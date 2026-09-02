@@ -153,7 +153,6 @@ class MatchSpecRegistry(gl.Contract):
             if not isinstance(leader_data, dict) or leader_data.get("_invalid") or candidate.get("_invalid"): return False
             leader_data=_canonical_result(leader_data, profile); candidate=_canonical_result(candidate, profile)
             fields=["item_a_match","item_b_match","status","physical_fit","power","data","display","protocol","adapter_required","condition_code","evidence_state"]
-            if leader_data["status"] == "UNKNOWN" and candidate["status"] == "UNKNOWN" and leader_data["evidence_state"] in {"AMBIGUOUS","INSUFFICIENT"} and candidate["evidence_state"] in {"AMBIGUOUS","INSUFFICIENT"}: return True
             return isinstance(leader_data, dict) and isinstance(candidate, dict) and all(leader_data.get(k)==candidate.get(k) for k in fields)
         result=gl.vm.run_nondet_unsafe(leader,validate)
         result = _canonical_result(result, profile)

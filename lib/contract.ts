@@ -7,6 +7,12 @@ type InjectedProvider={request:(args:{method:string;params?:unknown[]})=>Promise
 function injectedProvider(){if(typeof window==='undefined')throw new Error('Injected wallet is required in the browser.');const provider=(window as Window & {ethereum?:InjectedProvider}).ethereum;if(!provider)throw new Error('An injected EIP-1193 wallet is required.');return provider;}
 function baseClient(){return createClient({chain:studionet,endpoint:process.env.NEXT_PUBLIC_GENLAYER_RPC});}
 export function matchspecClient(account?:`0x${string}`){return createClient({chain:studionet,endpoint:process.env.NEXT_PUBLIC_GENLAYER_RPC,account,provider:injectedProvider() as never});}
-export function isAcceptedReceipt(receipt:unknown){const r=receipt as {status_name?:string;result_name?:string;status?:number;result?:number}|null;return !!r&&(r.status_name==='ACCEPTED'||r.result_name==='MAJORITY_AGREE'||(r.status===5&&r.result===6));}
+export function isAcceptedReceipt(receipt:unknown){
+  const r=receipt as {statusName?:unknown;resultName?:unknown;txExecutionResultName?:unknown}|null;
+  return !!r
+    && r.statusName===TransactionStatus.FINALIZED
+    && r.resultName==='MAJORITY_AGREE'
+    && r.txExecutionResultName==='FINISHED_WITH_RETURN';
+}
 export async function readMatchspec(functionName:string,args:CalldataEncodable[]=[]){if(!address)throw new Error('NEXT_PUBLIC_MATCHSPEC_CONTRACT is not configured.');return baseClient().readContract({address,functionName,args,jsonSafeReturn:true});}
 export async function writeMatchspec(account:`0x${string}`,functionName:string,args:CalldataEncodable[]=[]){if(!address)throw new Error('NEXT_PUBLIC_MATCHSPEC_CONTRACT is not configured.');const client=matchspecClient(account);const hash=await client.writeContract({address,functionName,args,value:BigInt(0)});const receipt=await client.waitForTransactionReceipt({hash,status:TransactionStatus.FINALIZED});if(!isAcceptedReceipt(receipt))throw new Error('Transaction finalized without accepted consensus.');return {hash,receipt};}

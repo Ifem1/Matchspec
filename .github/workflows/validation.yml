@@ -20,5 +20,6 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m py_compile contracts/matchspec.py
-      - run: pip install genvm-lint
+      - run: pip install genlayer-test genvm-linter
       - run: genvm-lint check contracts/matchspec.py --json
+      - run: pytest tests/direct -q

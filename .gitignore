@@ -2,8 +2,8 @@
 node_modules/
 __pycache__/
 *.pyc
+*.tsbuildinfo
 .pytest_cache/
 artifacts/
 .env
 .env.local
-
