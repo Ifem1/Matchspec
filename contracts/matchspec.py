@@ -67,6 +67,19 @@ def _canonical_result(result, profile):
     if result["item_a_match"] != "YES" or result["item_b_match"] != "YES":
         result["status"]="UNKNOWN"; result["evidence_state"]="AMBIGUOUS" if "AMBIGUOUS" in [result["item_a_match"],result["item_b_match"]] else "INSUFFICIENT"; result["condition_code"]="UNKNOWN"
     if result["evidence_state"] != "SUFFICIENT" and result["status"] in {"DIRECT_COMPATIBLE","ADAPTER_REQUIRED"}: result["status"]="UNKNOWN"
+    assessed=[result[x.lower()] for x in ["PHYSICAL_FIT","POWER","DATA","DISPLAY","PROTOCOL"] if x in requested]
+    if result["item_a_match"] != "YES" or result["item_b_match"] != "YES" or result["evidence_state"] != "SUFFICIENT" or not assessed or any(x=="UNKNOWN" for x in assessed):
+        result["status"]="UNKNOWN"
+    elif all(x=="INCOMPATIBLE" for x in assessed):
+        result["status"]="INCOMPATIBLE"
+    elif any(x=="INCOMPATIBLE" for x in assessed):
+        result["status"]="PARTIAL_COMPATIBILITY"
+    elif result["adapter_required"]:
+        result["status"]="ADAPTER_REQUIRED"
+    elif any(x=="CONDITIONAL" for x in assessed):
+        result["status"]="CONDITIONAL"
+    else:
+        result["status"]="DIRECT_COMPATIBLE"
     return result
 
 class MatchSpecRegistry(gl.Contract):
@@ -152,7 +165,7 @@ class MatchSpecRegistry(gl.Contract):
             candidate=_fetch_evidence(a,b,profile,source_urls)
             if not isinstance(leader_data, dict) or leader_data.get("_invalid") or candidate.get("_invalid"): return False
             leader_data=_canonical_result(leader_data, profile); candidate=_canonical_result(candidate, profile)
-            fields=["item_a_match","item_b_match","status","physical_fit","power","data","display","protocol","adapter_required","condition_code","evidence_state"]
+            fields=["item_a_match","item_b_match","physical_fit","power","data","display","protocol","adapter_required"]
             return isinstance(leader_data, dict) and isinstance(candidate, dict) and all(leader_data.get(k)==candidate.get(k) for k in fields)
         result=gl.vm.run_nondet_unsafe(leader,validate)
         result = _canonical_result(result, profile)
