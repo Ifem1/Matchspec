@@ -1,1 +1,3 @@
-'use client'; import {useState} from 'react'; import {connectWallet} from '../lib/wallet'; export default function WalletButton(){const [account,setAccount]=useState('');const [error,setError]=useState('');return <div><button onClick={async()=>{try{setAccount(await connectWallet());setError('')}catch(e){setError(e instanceof Error?e.message:'Wallet connection failed')}}}>{account?`${account.slice(0,6)}…${account.slice(-4)}`:'CONNECT WALLET'}</button>{error&&<p role="alert" className="mono">{error}</p>}</div>}
+'use client';
+import {useWallet,isStudionet} from './WalletProvider';
+export default function WalletButton(){const {address,chainId,error,connect}=useWallet();return <div><button onClick={()=>void connect()}>{address?`${address.slice(0,6)}…${address.slice(-4)}`:'CONNECT WALLET'}</button>{address&&!isStudionet(chainId)&&<p role="alert" className="mono">WRONG NETWORK — SWITCH TO STUDIONET</p>}{error&&<p role="alert" className="mono">{error}</p>}</div>}
