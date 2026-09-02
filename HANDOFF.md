@@ -40,10 +40,12 @@ Fresh local encrypted accounts were created for testing and funded with 1 GEN ea
 
 ## Disposable diagnostic evidence
 
-- Diagnostic deployment tx: `0xfced08927d0624655081bc44cdb12c49e070dc06c33d6907e6a0567357fe8115`; returned address `0x6d91CfAE5262C511EbaAB44D2494f3C40a24352e`.
-- Web-only diagnostic tx: `0x769251671b61e28cbb8da503162c119a9d85d44866910300df73a0f4696bc74b`; the call returned `contract_not_found_handler` because the returned diagnostic address was not discoverable through Studionet.
-- A second web-only attempt produced the same `contract_not_found_handler` result: `0x02d312529dfe120085cd72765e647265ce3a0b2e4f6acbbadf6d8e6e41058a0a`.
-- The diagnostic ladder therefore cannot yet distinguish web, LLM, and minimal-consensus execution: the disposable contract is unavailable at the RPC after deployment finality.
+- Exact source preserved on local branch `audit/diagnostic-fced0892`, commit `bb85a91`; SHA-256 `3944828A261D85ED46BFC60BB676D36A7241C8DE7EA476D3E0DBD9EDAD6A9DF2`.
+- Runner dependency: `genlayer-py 0.18.0`, `genlayer-test 0.29.2`, `genvm-linter 0.11.0`, `py-genlayer` dependency hash as declared in the source.
+- Diagnostic deployment tx: `0xfced08927d0624655081bc44cdb12c49e070dc06c33d6907e6a0567357fe8115`; protocol-returned address `0x6d91CfAE5262C511EbaAB44D2494f3C40a24352e`.
+- Actual receipt: `status=7` / `FINALIZED`; `result=6` / `MAJORITY_AGREE`; leader `execution_result=ERROR`; payload `invalid_contract absent_runner_comment`; no `FINISHED_WITH_RETURN` execution result.
+- Classification: failed diagnostic deployment, not an indexing delay. The protocol address is not a callable contract because deployment execution failed.
+- Web-only tx attempts `0x769251671b61e28cbb8da503162c119a9d85d44866910300df73a0f4696bc74b` and `0x02d312529dfe120085cd72765e647265ce3a0b2e4f6acbbadf6d8e6e41058a0a` returned `contract_not_found_handler`; they are invalid ladder evidence because deployment was not successful.
 
 ## Honest limitations
 
