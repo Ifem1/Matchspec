@@ -38,6 +38,13 @@ Fresh local encrypted accounts were created for testing and funded with 1 GEN ea
 - A successful assessment/reassessment and source-version history on this exact deployment are not yet proven.
 - Vercel still points at the previous contract configuration until a new final deployment is verified.
 
+## Disposable diagnostic evidence
+
+- Diagnostic deployment tx: `0xfced08927d0624655081bc44cdb12c49e070dc06c33d6907e6a0567357fe8115`; returned address `0x6d91CfAE5262C511EbaAB44D2494f3C40a24352e`.
+- Web-only diagnostic tx: `0x769251671b61e28cbb8da503162c119a9d85d44866910300df73a0f4696bc74b`; the call returned `contract_not_found_handler` because the returned diagnostic address was not discoverable through Studionet.
+- A second web-only attempt produced the same `contract_not_found_handler` result: `0x02d312529dfe120085cd72765e647265ce3a0b2e4f6acbbadf6d8e6e41058a0a`.
+- The diagnostic ladder therefore cannot yet distinguish web, LLM, and minimal-consensus execution: the disposable contract is unavailable at the RPC after deployment finality.
+
 ## Honest limitations
 
 Configured sources are selected by the pair creator; source ownership is not cryptographically proven; documentation can change; model/revision naming can be ambiguous; results can become stale; web failures and validator disagreement are possible; Studionet is a development network.
