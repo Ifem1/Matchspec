@@ -5,24 +5,25 @@
 | Field | Value |
 |---|---|
 | Repository | https://github.com/Ifem1/Matchspec |
-| Commit | `2d0b0a8ba9a18b5742c88a1995151be2eb407fd3` |
+| Commit | `d4eaca6558415f2ae61c96d9042ae490870af27c` |
 | Network | Studionet |
 | Chain ID | 61999 |
-| Contract | `0xa0da92e2779F00dc25b03Ed2E25E04746bE47858` |
-| Explorer | https://explorer-studio.genlayer.com/address/0xa0da92e2779F00dc25b03Ed2E25E04746bE47858 |
-| Contract SHA-256 | `3754E9BA208E331A9BA68D14AEA4E2C248580DF04E0F41323A98F5C0F608EA49` |
+| Contract | `0x13656299d30cec1d4936dBf24366d2D7B1660342` |
+| Explorer | https://explorer-studio.genlayer.com/address/0x13656299d30cec1d4936dBf24366d2D7B1660342 |
+| Contract SHA-256 | `0e7f3fcec0ddb7c3a116e0c20a289473f038a67b9f3ea1459b28488469e720d3` |
 | Frontend URL | https://matchspec.vercel.app/ (requires final address update) |
 
 ## Deployment and lifecycle evidence
 
 | Operation | Transaction / result |
 |---|---|
-| Deploy | `0x3e85f702c7b231e09ee08e7d7e60529170947dc1a1741efa6e9eba2ad491578b` |
-| Item A | `0xa8ce6ac44f42db919161dcba33d65b4f7413d14b629613f48d3349f5a7abcd10` |
-| Item B / Pair | Accepted; exact hashes were truncated by the CLI output; pair-count readback returned `1` |
-| Assessment | `0x824ea7ab16a378ed2c23e2e4513adf954e1820212bc9eb758fb10429433245f6` — failed to commit; canonical `assessment_count` remained `0` |
+| Deploy | `0x8ee94087c7cb62bda1b0c57c259b97ed0d72fe470c13bc4c3254fdd0fce8de07` |
+| Item A | `0x0f5eb5d90e98b6307e9a4435c12124e1720213bc4344a5a379ce360240fcbd3a` |
+| Item B | `0x076cf7c2c7641ebd4d215a5ef8d9e3621e829b6382f4039237d3641b325c9287` |
+| Pair | `0x1b1b35e18e2a45eeb8e5dccf568f0ec18f74eb50b0187a76f1a2777c63159563` |
+| Assessment | `0x08b01591a93cfedd5cc3f8943f6d227198170f45850616cb503c5d4aa34f5de4` — `FINALIZED`, `MAJORITY_AGREE`, leader `SUCCESS`; canonical `assessment_count=1` |
 
-The pair transaction was accepted and pair-count readback returned `1`; its complete hash was not captured in the terminal output and is intentionally not fabricated here.
+Fresh final lifecycle pair is `1:2`; pair readback confirmed `source_version=1`. Assessment #1 readback confirmed `status=UNKNOWN`, `evidence_state=INSUFFICIENT`, with no compatibility evidence in the configured Dell source. This is a safe canonical result, not an approval.
 
 ## Diagnostic accounts
 
@@ -59,5 +60,7 @@ Fresh local encrypted accounts were created for testing and funded with 1 GEN ea
 - Diagnostic conclusion: the deployment, web access, structured LLM call, and minimal consensus primitive work independently. The remaining failure is MatchSpec-specific and requires comparison of its evidence pipeline against this valid primitive.
 
 ## Honest limitations
+
+The evidence-backed validator redesign was proven on disposable diagnostic deployment `0x4C58e3bE4e0625962ac73e15A4f5dc920CD891E3`, probe tx `0x16fd64412d75a1f72ad458059b700e3b721352ad42dcd2f7360a838b0c727593`, which finalized with majority agreement and substantive `valid` judgments. The production assessment likewise finalized with majority agreement and returned safely as UNKNOWN/INSUFFICIENT; the source did not support the exact pair. The CLI does not expose a separate top-level `txExecutionResultName`; leader execution was SUCCESS and the returned payload was `1`.
 
 Configured sources are selected by the pair creator; source ownership is not cryptographically proven; documentation can change; model/revision naming can be ambiguous; results can become stale; web failures and validator disagreement are possible; Studionet is a development network.
