@@ -5,13 +5,14 @@
 | Field | Value |
 |---|---|
 | Repository | https://github.com/Ifem1/Matchspec |
-| Commit | `d4eaca6558415f2ae61c96d9042ae490870af27c` |
+| Repo HEAD | `43c5b6da` (frontend release commit) |
+| Deployed contract source commit | `d4eaca6558415f2ae61c96d9042ae490870af27c` |
 | Network | Studionet |
 | Chain ID | 61999 |
 | Contract | `0x13656299d30cec1d4936dBf24366d2D7B1660342` |
 | Explorer | https://explorer-studio.genlayer.com/address/0x13656299d30cec1d4936dBf24366d2D7B1660342 |
 | Contract SHA-256 | `0e7f3fcec0ddb7c3a116e0c20a289473f038a67b9f3ea1459b28488469e720d3` |
-| Frontend URL | https://matchspec.vercel.app/ (requires final address update) |
+| Frontend URL | https://matchspec.vercel.app/ (verified production deployment) |
 
 ## Deployment and lifecycle evidence
 
@@ -35,9 +36,8 @@ Fresh local encrypted accounts were created for testing and funded with 1 GEN ea
 ## Current blockers
 
 - Direct Mode currently fails before contract import with `DecodingError: unexpected end of memory` in the installed Windows GenLayer runner.
-- The Studionet RPC does not expose `gen_dbg_traceTransaction`, so the failed assessment cannot be traced through that endpoint.
-- A successful assessment/reassessment and source-version history on this exact deployment are not yet proven.
-- Vercel still points at the previous contract configuration until a new final deployment is verified.
+- Assessment #1 is proven on the final deployment: `FINALIZED`, `MAJORITY_AGREE`, leader `SUCCESS`, `assessment_count=1`, `source_version=1`, canonical status `UNKNOWN` / `INSUFFICIENT`.
+- Source-version reassessment was not performed for this release.
 
 ## Disposable diagnostic evidence
 
