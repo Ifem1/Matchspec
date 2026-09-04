@@ -1,5 +1,6 @@
 import {describe, expect, it} from 'vitest';
 import {isAcceptedReceipt,MatchspecTransactionError} from '../lib/contract';
+import {findCreatedPair} from '../lib/pairReconciliation';
 const finalized = {status: 5, statusName: 'ACCEPTED', result: 6, resultName: 'MAJORITY_AGREE', txExecutionResultName: 'FINISHED_WITH_RETURN', txExecutionResult: 'FINISHED_WITH_RETURN'};
 describe('bounded compatibility vocabulary', () => { it('contains all six statuses', () => expect(['DIRECT_COMPATIBLE','ADAPTER_REQUIRED','PARTIAL_COMPATIBILITY','CONDITIONAL','INCOMPATIBLE','UNKNOWN']).toHaveLength(6)); });
 describe('genlayer-js 1.1.8 receipt gate', () => {
@@ -14,4 +15,6 @@ describe('genlayer-js 1.1.8 receipt gate', () => {
   it('rejects malformed and legacy snake-case receipts', () => { expect(isAcceptedReceipt(null)).toBe(false); expect(isAcceptedReceipt({status_name: 'ACCEPTED', result_name: 'MAJORITY_AGREE'})).toBe(false); });
   it('does not treat numeric status 5 as finalized success', () => expect(isAcceptedReceipt({status: 5, result: 6})).toBe(false));
   it('keeps the submitted hash on a failed transaction error', () => { const e=new MatchspecTransactionError('Consensus did not converge.','0x'+'1'.repeat(64)); expect(e.hash).toHaveLength(66); expect(e.message).toContain('Consensus did not converge'); });
+  it('does not report pair creation when canonical readback lacks the pair', () => expect(findCreatedPair([{item_a:1,item_b:3}],1,2)).toBeUndefined());
+  it('gets the pair identity only from canonical readback', () => expect(findCreatedPair([{id:7,item_a:1,item_b:2}],1,2)).toEqual({id:7,item_a:1,item_b:2}));
 });

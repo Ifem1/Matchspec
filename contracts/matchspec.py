@@ -75,12 +75,12 @@ def _canonical_result(result, profile):
         result["status"]="UNKNOWN"; result["evidence_state"]="AMBIGUOUS" if "AMBIGUOUS" in [result["item_a_match"],result["item_b_match"]] else "INSUFFICIENT"; result["condition_code"]="UNKNOWN"
     if result["evidence_state"] != "SUFFICIENT" and result["status"] in {"DIRECT_COMPATIBLE","ADAPTER_REQUIRED"}: result["status"]="UNKNOWN"
     assessed=[result[x.lower()] for x in ["PHYSICAL_FIT","POWER","DATA","DISPLAY","PROTOCOL"] if x in requested]
-    if result["item_a_match"] != "YES" or result["item_b_match"] != "YES" or result["evidence_state"] != "SUFFICIENT" or not assessed or any(x=="UNKNOWN" for x in assessed):
-        result["status"]="UNKNOWN"
     # A required incompatibility is terminal: it always outranks every
-    # compatible, conditional, or adapter-qualified dimension.
-    elif any(x=="INCOMPATIBLE" for x in assessed):
+    # other outcome, including unknown or insufficient evidence.
+    if any(x=="INCOMPATIBLE" for x in assessed):
         result["status"]="INCOMPATIBLE"
+    elif result["item_a_match"] != "YES" or result["item_b_match"] != "YES" or result["evidence_state"] != "SUFFICIENT" or not assessed or any(x=="UNKNOWN" for x in assessed):
+        result["status"]="UNKNOWN"
     elif result["adapter_required"]:
         result["status"]="ADAPTER_REQUIRED"
     elif any(x=="CONDITIONAL" for x in assessed):

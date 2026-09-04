@@ -1,0 +1,1 @@
+export function findCreatedPair(pairs:unknown[],itemA:number,itemB:number){return pairs.find((pair)=>{if(!pair||typeof pair!=='object')return false;const value=pair as {item_a?:unknown;item_b?:unknown};return Number(value.item_a)===itemA&&Number(value.item_b)===itemB;})}
