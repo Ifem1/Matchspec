@@ -77,10 +77,10 @@ def _canonical_result(result, profile):
     assessed=[result[x.lower()] for x in ["PHYSICAL_FIT","POWER","DATA","DISPLAY","PROTOCOL"] if x in requested]
     if result["item_a_match"] != "YES" or result["item_b_match"] != "YES" or result["evidence_state"] != "SUFFICIENT" or not assessed or any(x=="UNKNOWN" for x in assessed):
         result["status"]="UNKNOWN"
-    elif all(x=="INCOMPATIBLE" for x in assessed):
-        result["status"]="INCOMPATIBLE"
+    # A required incompatibility is terminal: it always outranks every
+    # compatible, conditional, or adapter-qualified dimension.
     elif any(x=="INCOMPATIBLE" for x in assessed):
-        result["status"]="PARTIAL_COMPATIBILITY"
+        result["status"]="INCOMPATIBLE"
     elif result["adapter_required"]:
         result["status"]="ADAPTER_REQUIRED"
     elif any(x=="CONDITIONAL" for x in assessed):
