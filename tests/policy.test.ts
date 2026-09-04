@@ -7,6 +7,7 @@ describe('genlayer-js 1.1.8 receipt gate', () => {
   it('accepts the actual Studionet accepted receipt shape', () => expect(isAcceptedReceipt({...finalized, status: 5, statusName: 'ACCEPTED'})).toBe(true));
   it('rejects majority disagreement', () => expect(isAcceptedReceipt({...finalized, resultName: 'MAJORITY_DISAGREE'})).toBe(false));
   it('rejects an undetermined receipt without presenting it as success', () => expect(isAcceptedReceipt({status: 9, statusName: 'UNDETERMINED', resultName: 'UNDETERMINED', txExecutionResultName: 'FINISHED_WITH_RETURN'})).toBe(false));
+  it('recognizes the snake-case undetermined result used by the live receipt path', () => expect(isAcceptedReceipt({status_name: 'UNDETERMINED', result_name: 'UNDETERMINED', tx_execution_result_name: 'FINISHED_WITH_RETURN'})).toBe(false));
   it('rejects execution errors', () => expect(isAcceptedReceipt({...finalized, txExecutionResultName: 'FINISHED_WITH_ERROR'})).toBe(false));
   it('rejects accepted receipts with execution errors', () => expect(isAcceptedReceipt({...finalized, txExecutionResultName: 'FINISHED_WITH_ERROR'})).toBe(false));
   it('rejects missing execution result', () => expect(isAcceptedReceipt({...finalized, txExecutionResultName: undefined})).toBe(false));
