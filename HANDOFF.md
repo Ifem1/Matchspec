@@ -59,6 +59,17 @@ Fresh local encrypted accounts were created for testing and funded with 1 GEN ea
 - Minimal consensus tx: `0xc4e7a02ea9d5ce1b20663098beae059d128f3035dc56b282e4831793b0d11363`; finalized consensus and successful leader execution.
 - Diagnostic conclusion: the deployment, web access, structured LLM call, and minimal consensus primitive work independently. The remaining failure is MatchSpec-specific and requires comparison of its evidence pipeline against this valid primitive.
 
+## Final frontend verification
+
+- Live pair: pair `1` at https://matchspec.vercel.app/pair/1.
+- Assessment transaction: `0x41669ac417aca4e93e2ea45cb89e11764cebec906428ebefef92b2b26345fb73`.
+- Explorer: https://explorer-studio.genlayer.com/tx/0x41669ac417aca4e93e2ea45cb89e11764cebec906428ebefef92b2b26345fb73.
+- Explorer confirmed `FINALIZED`, consensus `UNDETERMINED`, and GenVM execution `SUCCESS` with return value `1`.
+- The frontend displays “Consensus did not converge”, the exact hash, Explorer link, and retry action.
+- The message, hash, and link survive a complete reload.
+- No compatibility result was presented as verified; `assessment_count` remains `0` because consensus did not converge.
+- A successful convergent assessment was not demonstrated.
+
 ## Honest limitations
 
 The evidence-backed validator redesign was proven on disposable diagnostic deployment `0x4C58e3bE4e0625962ac73e15A4f5dc920CD891E3`, probe tx `0x16fd64412d75a1f72ad458059b700e3b721352ad42dcd2f7360a838b0c727593`, which finalized with majority agreement and substantive `valid` judgments. The production assessment likewise finalized with majority agreement and returned safely as UNKNOWN/INSUFFICIENT; the source did not support the exact pair. The CLI does not expose a separate top-level `txExecutionResultName`; leader execution was SUCCESS and the returned payload was `1`.
